@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -14,11 +14,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4d-vZ-0pX">
-                                <rect key="frame" x="0.0" y="20" width="375" height="123"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="123"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="123" id="hKS-le-Vpq"/>
                                 </constraints>
@@ -33,7 +33,7 @@ CarrierChanger12 by PeterDev</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31T-hi-OPi">
-                                <rect key="frame" x="0.0" y="597" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="742" width="375" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="L4i-VR-xko"/>
                                 </constraints>
@@ -45,15 +45,46 @@ CarrierChanger12 by PeterDev</string>
                                     <action selector="go:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HM8-ef-WQs"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDv-Tx-wxe">
+                                <rect key="frame" x="143" y="698" width="89" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="c4c-hC-cHw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="got revert?">
+                                    <color key="titleColor" red="1" green="0.52265280489999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="gotRevert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bYZ-tY-Es0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgV-S7-TR7">
+                                <rect key="frame" x="112" y="640" width="151" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="A8h-CA-7OO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="revert with backup">
+                                    <color key="titleColor" red="1" green="0.52265280489999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="restoreBackup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gqu-XI-s1B"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="31T-hi-OPi" secondAttribute="bottom" constant="20" symbolic="YES" id="2JT-8G-9eL"/>
+                            <constraint firstItem="VDv-Tx-wxe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8n2-HS-Q3W"/>
                             <constraint firstItem="j4d-vZ-0pX" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="F2N-Cm-95H"/>
                             <constraint firstAttribute="trailing" secondItem="j4d-vZ-0pX" secondAttribute="trailing" id="Fcm-k2-jsP"/>
                             <constraint firstItem="j4d-vZ-0pX" firstAttribute="trailing" secondItem="31T-hi-OPi" secondAttribute="trailing" id="JKj-IH-RYC"/>
+                            <constraint firstItem="31T-hi-OPi" firstAttribute="top" secondItem="pgV-S7-TR7" secondAttribute="bottom" constant="52" id="Or4-Ef-tIi"/>
                             <constraint firstItem="j4d-vZ-0pX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="SQI-zN-MPD"/>
                             <constraint firstItem="j4d-vZ-0pX" firstAttribute="leading" secondItem="31T-hi-OPi" secondAttribute="leading" id="TtU-Fr-hao"/>
+                            <constraint firstItem="pgV-S7-TR7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WAz-0z-6dA"/>
+                            <constraint firstItem="31T-hi-OPi" firstAttribute="top" secondItem="VDv-Tx-wxe" secondAttribute="bottom" constant="8" id="bey-5h-Vga"/>
+                            <constraint firstItem="VDv-Tx-wxe" firstAttribute="top" secondItem="pgV-S7-TR7" secondAttribute="bottom" constant="8" id="r4j-yT-NB2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

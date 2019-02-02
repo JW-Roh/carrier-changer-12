@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+- (IBAction)gotRevert:(id)sender;
+- (IBAction)restoreBackup:(id)sender;
 
 @end

@@ -76,6 +76,7 @@
 }
 
 - (void)respring {
+    [self copyFolderToChange];
     [self removeFolderAtOverlay];
     [self copyFolderToOverlay];
     [self removeFolderAtMedia];
@@ -85,6 +86,7 @@
 - (void)letsChange {
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/CarrierChanger12"] == YES) {
         printf("No need to make a backup.\n");
+        [self removeChangeFolder];
         [self copyFolderToMedia];
     } else {
         FILE *backupCheck = fopen("/var/mobile/CarrierChanger12", "w");
@@ -93,8 +95,21 @@
         }else {
             printf("Successfully make a backup checker\n");
             [self makeBackup];
+            [self removeChangeFolder];
             [self copyFolderToMedia];
         }
+    }
+}
+
+- (void)changeItAgain {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/CarrierChanger12"] == YES) {
+        [self copyChangeToMedia];
+    }
+}
+
+- (void)restoreBackup {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChangerBackup/"]) {
+        [self copyBackuptoMedia];
     }
 }
 
@@ -131,6 +146,33 @@
     printf("Successfully removed a folder\n");
 }
 
+- (void)removeChangeFolder {
+    NSURL *removeThis = [NSURL fileURLWithPath:@"/var/mobile/Media/CarrierChanger12/"];
+    [[NSFileManager defaultManager] removeItemAtPath:removeThis error:nil];
+    printf("Successfully removed a folder\n");
+}
+
+- (void)copyFolderToChange {
+    NSURL *oldURL = [NSURL fileURLWithPath:@"/var/mobile/Media/Overlay/"];
+    NSURL *newURL = [NSURL fileURLWithPath:@"/var/mobile/Media/CarrierChanger12/"];
+    [[NSFileManager defaultManager] copyItemAtPath:oldURL toPath:newURL error:nil];
+    printf("Successfully moved a folder\n");
+}
+
+- (void)copyChangeToMedia {
+    NSURL *oldURL = [NSURL fileURLWithPath:@"/var/mobile/Media/CarrierChanger12/"];
+    NSURL *newURL = [NSURL fileURLWithPath:@"/var/mobile/Media/Overlay/"];
+    [[NSFileManager defaultManager] copyItemAtPath:oldURL toPath:newURL error:nil];
+    printf("Successfully moved a folder\n");
+}
+
+- (void)copyBackuptoMedia {
+    NSURL *oldURL = [NSURL fileURLWithPath:@"/var/mobile/Media/CarrierChangerBackup/"];
+    NSURL *newURL = [NSURL fileURLWithPath:@"/var/mobile/Media/Overlay/"];
+    [[NSFileManager defaultManager] copyItemAtPath:oldURL toPath:newURL error:nil];
+    printf("Successfully moved a folder\n");
+}
+
 - (bool)go {
     offs_init();
     printf("Getting root...\n");
@@ -141,6 +183,32 @@
     printf("Unsandboxed: %i\n", (kernel_read64(kernel_read64(kernel_read64([self selfproc] + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) == 0) ? 1 : 0);
     printf("Success!\n");
     [self letsChange];
+    return getuid() ? false : true;
+}
+
+- (bool)revert {
+    offs_init();
+    printf("Getting root...\n");
+    [self root];
+    printf("UID: %i\n", getuid());
+    printf("Unsandboxing...\n");
+    [self unsandbox];
+    printf("Unsandboxed: %i\n", (kernel_read64(kernel_read64(kernel_read64([self selfproc] + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) == 0) ? 1 : 0);
+    printf("Success!\n");
+    [self changeItAgain];
+    return getuid() ? false : true;
+}
+
+- (bool)restore {
+    offs_init();
+    printf("Getting root...\n");
+    [self root];
+    printf("UID: %i\n", getuid());
+    printf("Unsandboxing...\n");
+    [self unsandbox];
+    printf("Unsandboxed: %i\n", (kernel_read64(kernel_read64(kernel_read64([self selfproc] + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) == 0) ? 1 : 0);
+    printf("Success!\n");
+    [self restoreBackup];
     return getuid() ? false : true;
 }
 
