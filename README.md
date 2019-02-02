@@ -13,3 +13,5 @@ Currently gets root and unsandboxes the application.
 <br>modifications and post exploitation
 - PeterDev
 <br>make it change carrier
+- Muirey
+<br>make it doesn't need a computer
