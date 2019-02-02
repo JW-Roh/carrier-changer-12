@@ -11,5 +11,7 @@
 @interface ViewController : UIViewController
 - (IBAction)gotRevert:(id)sender;
 - (IBAction)restoreBackup:(id)sender;
+@property (weak, nonatomic) IBOutlet UITextField *carrierTextField;
+- (IBAction)dismissKeyboard:(id)sender;
 
 @end

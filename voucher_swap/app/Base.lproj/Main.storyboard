@@ -24,10 +24,10 @@
                                 </constraints>
                                 <string key="text">voucher_swap
 by bazad
-
 fork by alticha
 
-CarrierChanger12 by PeterDev</string>
+CarrierChanger12 by PeterDev
+Special Thanks to Muirey</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -59,16 +59,39 @@ CarrierChanger12 by PeterDev</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgV-S7-TR7">
-                                <rect key="frame" x="112" y="640" width="151" height="50"/>
+                                <rect key="frame" x="107" y="640" width="161" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="A8h-CA-7OO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="revert with backup">
+                                <state key="normal" title="restore with backup">
                                     <color key="titleColor" red="1" green="0.52265280489999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="restoreBackup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gqu-XI-s1B"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Carrier Name!" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KM2-ja-TUm">
+                                <rect key="frame" x="115" y="193" width="145" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Im1-Py-rcR"/>
+                                    <constraint firstAttribute="width" constant="145" id="ofE-LU-qju"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAQ-fl-Ft1">
+                                <rect key="frame" x="126" y="231" width="123" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="JUK-9j-xW1"/>
+                                    <constraint firstAttribute="width" constant="123" id="dqI-Ub-SPn"/>
+                                </constraints>
+                                <state key="normal" title="Dismiss Keyboard">
+                                    <color key="titleColor" red="1" green="0.52265280489999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="dismissKeyboard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QvI-QX-9zm"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -82,16 +105,23 @@ CarrierChanger12 by PeterDev</string>
                             <constraint firstItem="31T-hi-OPi" firstAttribute="top" secondItem="pgV-S7-TR7" secondAttribute="bottom" constant="52" id="Or4-Ef-tIi"/>
                             <constraint firstItem="j4d-vZ-0pX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="SQI-zN-MPD"/>
                             <constraint firstItem="j4d-vZ-0pX" firstAttribute="leading" secondItem="31T-hi-OPi" secondAttribute="leading" id="TtU-Fr-hao"/>
+                            <constraint firstItem="FAQ-fl-Ft1" firstAttribute="top" secondItem="KM2-ja-TUm" secondAttribute="bottom" constant="8" id="W6Q-5Q-xj0"/>
                             <constraint firstItem="pgV-S7-TR7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WAz-0z-6dA"/>
+                            <constraint firstItem="KM2-ja-TUm" firstAttribute="top" secondItem="j4d-vZ-0pX" secondAttribute="bottom" constant="26" id="YAg-62-oab"/>
                             <constraint firstItem="31T-hi-OPi" firstAttribute="top" secondItem="VDv-Tx-wxe" secondAttribute="bottom" constant="8" id="bey-5h-Vga"/>
+                            <constraint firstItem="KM2-ja-TUm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dit-d0-r9J"/>
+                            <constraint firstItem="FAQ-fl-Ft1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pu8-LZ-j2d"/>
                             <constraint firstItem="VDv-Tx-wxe" firstAttribute="top" secondItem="pgV-S7-TR7" secondAttribute="bottom" constant="8" id="r4j-yT-NB2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="carrierTextField" destination="KM2-ja-TUm" id="Iq9-Hu-1T3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="91.304347826086968"/>
+            <point key="canvasLocation" x="136.80000000000001" y="90.886699507389167"/>
         </scene>
     </scenes>
 </document>

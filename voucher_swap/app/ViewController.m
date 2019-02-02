@@ -56,9 +56,35 @@
 	sleep(1);
         [post go];
         [sender setTitle:@"respring" forState:UIControlStateNormal];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and respring after modify the files."] preferredStyle:UIAlertControllerStyleAlert];
-	[alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and respring after modify the files.\nJust press respring to change carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:nil]];
         [self presentViewController:alert animated:YES completion:nil];
+        
+        NSString *folderPath = @"/var/mobile/Media/Overlay/";
+        NSString *carrierText = self.carrierTextField.text;
+        NSArray *plistNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
+        
+        for (NSString *plistName in plistNames) {
+            
+            if (![plistName.pathExtension isEqualToString:@"plist"]) {
+                continue;
+            }
+            
+            NSString *plistFullPath = [folderPath stringByAppendingPathComponent:plistName];
+            
+            NSMutableDictionary* plistDict = [[NSDictionary dictionaryWithContentsOfFile:plistFullPath] mutableCopy];
+            NSMutableArray<NSDictionary*>* images = [plistDict[@"StatusBarImages"] mutableCopy];
+            for (int i = 0; i < images.count; i++)
+            {
+                NSMutableDictionary* sbImage = [images[i] mutableCopy];
+                [sbImage setValue:carrierText forKey:@"StatusBarCarrierName"];
+                images[i] = [sbImage copy];
+            }
+            plistDict[@"StatusBarImages"] = [images copy];
+            [plistDict writeToFile:plistFullPath atomically:YES];
+            
+        }
+        
     } else {
         [self failure];
     }
@@ -130,4 +156,9 @@
     }
     progress++;
 }
+
+- (IBAction)dismissKeyboard:(id)sender {
+    [self.carrierTextField endEditing:YES];
+}
+
 @end
