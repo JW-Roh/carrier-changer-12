@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITextFieldDelegate>
 - (IBAction)gotRevert:(id)sender;
 - (IBAction)restoreBackup:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *carrierTextField;
-- (IBAction)dismissKeyboard:(id)sender;
-
 @end

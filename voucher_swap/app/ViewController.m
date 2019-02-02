@@ -93,6 +93,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.carrierTextField.delegate = self;
 }
 
 - (IBAction)gotRevert:(id)sender {
@@ -157,8 +158,9 @@
     progress++;
 }
 
-- (IBAction)dismissKeyboard:(id)sender {
-    [self.carrierTextField endEditing:YES];
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
