@@ -76,7 +76,59 @@
 }
 
 - (void)respring {
+    [self removeFolderAtOverlay];
+    [self copyFolderToOverlay];
+    [self removeFolderAtMedia];
     kill([self name_to_pid:@"backboardd"], SIGKILL);
+}
+
+- (void)letsChange {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/CarrierChanger12"] == YES) {
+        printf("No need to make a backup.\n");
+        [self copyFolderToMedia];
+    } else {
+        FILE *backupCheck = fopen("/var/mobile/CarrierChanger12", "w");
+        if (!backupCheck) {
+            printf("Failed to make a backup checker\n");
+        }else {
+            printf("Successfully make a backup checker\n");
+            [self makeBackup];
+            [self copyFolderToMedia];
+        }
+    }
+}
+
+- (void)makeBackup {
+    NSURL *oldURL = [NSURL fileURLWithPath:@"/var/mobile/Library/Carrier Bundles/Overlay/"];
+    NSURL *newURL = [NSURL fileURLWithPath:@"/var/mobile/Media/CarrierChangerBackup/"];
+    [[NSFileManager defaultManager] copyItemAtPath:oldURL toPath:newURL error:nil];
+    printf("Successfully backed up\n");
+}
+
+- (void)copyFolderToMedia {
+    NSURL *oldURL = [NSURL fileURLWithPath:@"/var/mobile/Library/Carrier Bundles/Overlay/"];
+    NSURL *newURL = [NSURL fileURLWithPath:@"/var/mobile/Media/Overlay/"];
+    [[NSFileManager defaultManager] copyItemAtPath:oldURL toPath:newURL error:nil];
+    printf("Successfully moved a folder\n");
+}
+
+- (void)removeFolderAtMedia {
+    NSURL *removeThis = [NSURL fileURLWithPath:@"/var/mobile/Media/Overlay/"];
+    [[NSFileManager defaultManager] removeItemAtPath:removeThis error:nil];
+    printf("Successfully removed a folder\n");
+}
+
+- (void)copyFolderToOverlay {
+    NSURL *oldURL = [NSURL fileURLWithPath:@"/var/mobile/Media/Overlay/"];
+    NSURL *newURL = [NSURL fileURLWithPath:@"/var/mobile/Library/Carrier Bundles/Overlay/"];
+    [[NSFileManager defaultManager] copyItemAtPath:oldURL toPath:newURL error:nil];
+    printf("Successfully moved a folder\n");
+}
+
+- (void)removeFolderAtOverlay {
+    NSURL *removeThis = [NSURL fileURLWithPath:@"/var/mobile/Library/Carrier Bundles/Overlay/"];
+    [[NSFileManager defaultManager] removeItemAtPath:removeThis error:nil];
+    printf("Successfully removed a folder\n");
 }
 
 - (bool)go {
@@ -88,6 +140,7 @@
     [self unsandbox];
     printf("Unsandboxed: %i\n", (kernel_read64(kernel_read64(kernel_read64([self selfproc] + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) == 0) ? 1 : 0);
     printf("Success!\n");
+    [self letsChange];
     return getuid() ? false : true;
 }
 

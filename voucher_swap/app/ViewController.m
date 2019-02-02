@@ -56,7 +56,7 @@
 	sleep(1);
         [post go];
         [sender setTitle:@"respring" forState:UIControlStateNormal];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"tfp0: %i\nkernel base: 0x%llx\nuid: %i\nunsandboxed: true", kernel_task_port, kernel_slide + 0xFFFFFFF007004000, getuid()] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and respring after modify the files."] preferredStyle:UIAlertControllerStyleAlert];
 	[alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
         [self presentViewController:alert animated:YES completion:nil];
     } else {
