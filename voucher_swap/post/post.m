@@ -12,6 +12,8 @@
 
 @implementation Post
 
+extern int reboot(int howto);
+
 - (uint64_t)selfproc {
     return kernel_read64(current_task + OFFSET(task, bsd_info));
 }
@@ -75,12 +77,25 @@
     kernel_write64(cr_label + off_sandbox_slot, 0);
 }
 
-- (void)respring {
+- (void)reboot {
     [self copyFolderToChange];
     [self removeFolderAtOverlay];
     [self copyFolderToOverlay];
     [self removeFolderAtMedia];
+    reboot(0x400);
+}
+
+- (bool)respring {
+    offs_init();
+    printf("Getting root...\n");
+    [self root];
+    printf("UID: %i\n", getuid());
+    printf("Unsandboxing...\n");
+    [self unsandbox];
+    printf("Unsandboxed: %i\n", (kernel_read64(kernel_read64(kernel_read64([self selfproc] + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) == 0) ? 1 : 0);
+    printf("Success!\n");
     kill([self name_to_pid:@"backboardd"], SIGKILL);
+    return getuid() ? false : true;
 }
 
 - (void)letsChange {

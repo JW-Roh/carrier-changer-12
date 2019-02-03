@@ -8,9 +8,10 @@
 @interface Post : NSObject
 
 - (bool)go;
-- (void)respring;
+- (void)reboot;
 - (bool)revert;
 - (bool)restore;
+- (bool)respring;
 
 @end
 

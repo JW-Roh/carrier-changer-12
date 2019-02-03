@@ -36,7 +36,7 @@
 }
 
 - (void)failure {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error: exploit" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -44,7 +44,7 @@
     Post *post = [[Post alloc] init];
     static int progress = 0;
     if (progress == 2) {
-        [post respring];
+        [post reboot];
         return;
     }
     if (progress == 1) {
@@ -55,8 +55,8 @@
     if (success) {
 	sleep(1);
         [post go];
-        [sender setTitle:@"respring" forState:UIControlStateNormal];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and respring after modify the files.\nJust press respring to change carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+        [sender setTitle:@"reboot" forState:UIControlStateNormal];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and reboot after modify the files.\nJust press reboot to change carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
 	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:nil]];
         [self presentViewController:alert animated:YES completion:nil];
         
@@ -96,11 +96,28 @@
     self.carrierTextField.delegate = self;
 }
 
+- (IBAction)respringDevice:(id)sender {
+    Post *post = [[Post alloc] init];
+    static int progress = 0;
+    if (progress == 1) {
+        return;
+    }
+    progress++;
+    bool success = [self voucher_swap];
+    if (success) {
+        sleep(1);
+        [post respring];
+    } else {
+        [self failure];
+    }
+    progress++;
+}
+
 - (IBAction)gotRevert:(id)sender {
     Post *post = [[Post alloc] init];
     static int progress = 0;
     if (progress == 2) {
-        [post respring];
+        [post reboot];
         return;
     }
     if (progress == 1) {
@@ -111,13 +128,13 @@
     if (success) {
         sleep(1);
         [post revert];
-        [sender setTitle:@"respring" forState:UIControlStateNormal];
+        [sender setTitle:@"reboot" forState:UIControlStateNormal];
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChanger12/"]) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully changed Carrier Name again. click respring"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully changed Carrier Name again. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         } else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"You have never changed carrier name before. press go instead of this. click respring"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"You have never changed carrier name before. press go instead of this. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         }
@@ -131,7 +148,7 @@
     Post *post = [[Post alloc] init];
     static int progress = 0;
     if (progress == 2) {
-        [post respring];
+        [post reboot];
         return;
     }
     if (progress == 1) {
@@ -142,13 +159,13 @@
     if (success) {
         sleep(1);
         [post restore];
-        [sender setTitle:@"respring" forState:UIControlStateNormal];
+        [sender setTitle:@"reboot" forState:UIControlStateNormal];
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChangerBackup/"]) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully restored with backup. click respring"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully restored with backup. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         } else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"Cannot find backup folder. click respring"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"Cannot find backup folder. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         }
