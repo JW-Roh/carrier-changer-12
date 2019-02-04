@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController <UITextFieldDelegate>
-- (IBAction)respringDevice:(id)sender;
 - (IBAction)gotRevert:(id)sender;
-- (IBAction)restoreBackup:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *carrierTextField;
+
 @end
