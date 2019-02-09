@@ -115,6 +115,16 @@
                                     <action selector="creditClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SCA-sZ-kl7"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="for iOS 12.0 - 12.1.2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYo-b4-ner">
+                                <rect key="frame" x="16" y="136" width="133" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="4OG-tw-Jq7"/>
+                                    <constraint firstAttribute="width" constant="133" id="9Sa-Pl-JMe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.092751332561964425" green="0.092303258491616774" blue="0.093199406632312076" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
@@ -124,6 +134,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hkH-Yl-Bxl" secondAttribute="trailing" constant="16" id="Fe4-ES-LGM"/>
                             <constraint firstItem="31T-hi-OPi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Ici-bI-ct4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ndY-Vu-uGu" secondAttribute="trailing" constant="16" id="Jxl-Ca-kAR"/>
+                            <constraint firstItem="hYo-b4-ner" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="K6I-sj-9JJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pgV-S7-TR7" secondAttribute="trailing" constant="16" id="PO0-Ya-rOv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dYp-B7-NS8" secondAttribute="trailing" constant="16" id="VjW-EM-Lw8"/>
                             <constraint firstItem="pgV-S7-TR7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ZZy-38-BMg"/>
@@ -134,6 +145,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="31T-hi-OPi" secondAttribute="trailing" constant="16" id="dEP-Fc-iqf"/>
                             <constraint firstItem="ndY-Vu-uGu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="dYg-th-WTt"/>
                             <constraint firstItem="dYp-B7-NS8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="fZ4-0F-xxX"/>
+                            <constraint firstItem="hYo-b4-ner" firstAttribute="top" secondItem="hkH-Yl-Bxl" secondAttribute="bottom" constant="8" id="gXD-ch-9Ln"/>
                             <constraint firstItem="pgV-S7-TR7" firstAttribute="top" secondItem="31T-hi-OPi" secondAttribute="bottom" constant="8" id="hNR-bx-cGV"/>
                             <constraint firstItem="dYp-B7-NS8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ibN-sH-ZaX"/>
                             <constraint firstItem="VDv-Tx-wxe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="peG-oV-OKy"/>
