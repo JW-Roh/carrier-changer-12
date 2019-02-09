@@ -82,7 +82,8 @@ extern int reboot(int howto);
     [self removeFolderAtOverlay];
     [self copyFolderToOverlay];
     [self removeFolderAtMedia];
-    reboot(0x400);
+    kill([self name_to_pid:@"CommCenter"], SIGKILL);
+    //reboot(0x400);
 }
 
 - (bool)respring {
@@ -103,6 +104,7 @@ extern int reboot(int howto);
         printf("No need to make a backup.\n");
         [self removeChangeFolder];
         [self copyFolderToMedia];
+        [self reboot];
     } else {
         FILE *backupCheck = fopen("/var/mobile/CarrierChanger12", "w");
         if (!backupCheck) {
@@ -112,6 +114,7 @@ extern int reboot(int howto);
             [self makeBackup];
             [self removeChangeFolder];
             [self copyFolderToMedia];
+            [self reboot];
         }
     }
 }

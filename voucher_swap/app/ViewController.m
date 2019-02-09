@@ -42,21 +42,11 @@
 
 - (IBAction)go:(id)sender {
     Post *post = [[Post alloc] init];
-    static int progress = 0;
-    if (progress == 2) {
-        [post reboot];
-        return;
-    }
-    if (progress == 1) {
-	return;
-    }
-    progress++;
     bool success = [self voucher_swap];
     if (success) {
 	sleep(1);
         [post go];
-        [sender setTitle:@"Reboot" forState:UIControlStateNormal];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and reboot after modify the files.\nJust press reboot to change carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and reboot after modify the files.\nJust press respring to change carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
 	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:nil]];
         [self presentViewController:alert animated:YES completion:nil];
         
@@ -88,7 +78,6 @@
     } else {
         [self failure];
     }
-    progress++;
 }
 
 - (void)viewDidLoad {
@@ -111,13 +100,12 @@
     if (success) {
         sleep(1);
         [post revert];
-        [sender setTitle:@"Reboot" forState:UIControlStateNormal];
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChanger12/"]) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully changed Carrier Name again. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully changed Carrier Name again."] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         } else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"You have never changed carrier name before. press go instead of this. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"You have never changed carrier name before. press go instead of this."] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         }
@@ -132,4 +120,9 @@
     return YES;
 }
 
+- (IBAction)creditClicked:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nCarrierChanger12 by PeterDev\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng and Code4iOS"] preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 @end

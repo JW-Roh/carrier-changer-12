@@ -11,5 +11,6 @@
 @interface ViewController : UIViewController <UITextFieldDelegate>
 - (IBAction)gotRevert:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *carrierTextField;
+- (IBAction)creditClicked:(id)sender;
 
 @end
