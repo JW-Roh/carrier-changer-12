@@ -40,21 +40,12 @@
 
 - (IBAction)restoreBackup:(id)sender {
     Post *post = [[Post alloc] init];
-    static int progress = 0;
-    if (progress == 2) {
-        [post reboot];
-        return;
-    }
-    if (progress == 1) {
-        return;
-    }
-    progress++;
     bool success = [self voucher_swap];
     if (success) {
         sleep(1);
-        [post restore];
-        [sender setTitle:@"Reboot" forState:UIControlStateNormal];
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChangerBackup/"]) {
+            [post restore];
+            [post reboot];
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully restored with backup. click reboot"] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
@@ -66,7 +57,6 @@
     } else {
         [self failure];
     }
-    progress++;
 }
 
 @end

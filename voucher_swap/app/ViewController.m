@@ -46,10 +46,6 @@
     if (success) {
 	sleep(1);
         [post go];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfuly got root\nFiles saved at /var/mobile/Media/Overlay/\nkeep this app open and reboot after modify the files.\nJust press respring to change carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
-	[alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:nil]];
-        [self presentViewController:alert animated:YES completion:nil];
-        
         NSString *folderPath = @"/var/mobile/Media/Overlay/";
         NSString *carrierText = self.carrierTextField.text;
         NSArray *plistNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
@@ -72,8 +68,13 @@
             }
             plistDict[@"StatusBarImages"] = [images copy];
             [plistDict writeToFile:plistFullPath atomically:YES];
-            
         }
+        
+        [post reboot];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfuly changed carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
         
     } else {
         [self failure];
@@ -87,32 +88,23 @@
 
 - (IBAction)gotRevert:(id)sender {
     Post *post = [[Post alloc] init];
-    static int progress = 0;
-    if (progress == 2) {
-        [post reboot];
-        return;
-    }
-    if (progress == 1) {
-        return;
-    }
-    progress++;
     bool success = [self voucher_swap];
     if (success) {
         sleep(1);
-        [post revert];
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChanger12/"]) {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"success" message:[NSString stringWithFormat:@"Successfully changed Carrier Name again."] preferredStyle:UIAlertControllerStyleAlert];
+            [post revert];
+            [post reboot];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully changed carrier name again."] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         } else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"failed" message:[NSString stringWithFormat:@"You have never changed carrier name before. press go instead of this."] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Failed." message:[NSString stringWithFormat:@"You have never changed carrier name before. press Apply instead of this."] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         }
     } else {
         [self failure];
     }
-    progress++;
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
