@@ -67,6 +67,7 @@
                 images[i] = [sbImage copy];
             }
             plistDict[@"StatusBarImages"] = [images copy];
+            [plistDict setValue:carrierText forKey:@"OverrideOperatorWiFiName"];
             [plistDict writeToFile:plistFullPath atomically:YES];
         }
         
