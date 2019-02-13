@@ -68,6 +68,7 @@
             }
             plistDict[@"StatusBarImages"] = [images copy];
             [plistDict setValue:carrierText forKey:@"OverrideOperatorWiFiName"];
+            
             [plistDict writeToFile:plistFullPath atomically:YES];
         }
         
@@ -114,7 +115,7 @@
 }
 
 - (IBAction)creditClicked:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nCarrierChanger12 by PeterDev\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng and Code4iOS"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nCarrierChanger12 by PeterDev\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng, Code4iOS\nand jailbreak365"] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }

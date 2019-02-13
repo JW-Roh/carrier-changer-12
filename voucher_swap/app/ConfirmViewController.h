@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ConfirmViewController : UIViewController
 - (IBAction)restoreBackup:(id)sender;
+- (IBAction)dismissView:(id)sender;
 
 @end
 
