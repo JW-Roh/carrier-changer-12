@@ -91,7 +91,7 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
     DumpHex(buf, sizeof(buf));
     
     printf("lol\n");
-    exit(0); //we are no shenanigans!
+    //exit(0); //we are no shenanigans!
     return err;
 }
 
@@ -114,15 +114,13 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
         struct utsname ustruct = {};
         uname(&ustruct);
         printf("kern=%s\n",ustruct.version);
-        
         mach_port_t tfp0 = v3ntex();
         if (tfp0) dumpSomeKernel(tfp0, kbase, NULL);
-        rootify(getpid()); //gimme root
-        sb = unsandbox(getpid());
-        setcsflags(getpid()); // set some csflags
-        platformize(getpid()); // set TF_PLATFORM
         
-        [post letsChange];
+        [post go];
+        [self editPlist];
+        [post reboot];
+        [self goSuccess];
     } else {
         [self failure];
     }

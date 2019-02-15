@@ -9,10 +9,13 @@
 #include <mach-o/loader.h>
 #include "platform.h"
 #include "parameters.h"
+#include "log.h"
 
 @implementation Post
 
 extern int reboot(int howto);
+
+static uint64_t SANDBOX = 0;
 
 - (uint64_t)selfproc {
     return kernel_read64(current_task + OFFSET(task, bsd_info));
@@ -53,27 +56,99 @@ extern int reboot(int howto);
     return 0;
 }
 
-- (void)root {
-    uint64_t proc = [self selfproc];
+- (bool)isRoot {
+    return !getuid() && !getgid();
+}
+
+- (bool)isMobile {
+    return getuid() == 501 && getgid() == 501;
+}
+
+- (void)setUID:(uid_t)uid {
+    [self setUID:uid forProc:[self selfproc]];
+}
+
+- (void)setUID:(uid_t)uid forProc:(uint64_t)proc {
+    if (getuid() == uid) return;
     uint64_t ucred = kernel_read64(proc + off_p_ucred);
-    kernel_write32(proc + off_p_uid, 0);
-    kernel_write32(proc + off_p_ruid, 0);
-    kernel_write32(proc + off_p_gid, 0);
-    kernel_write32(proc + off_p_rgid, 0);
-    kernel_write32(ucred + off_ucred_cr_uid, 0);
-    kernel_write32(ucred + off_ucred_cr_ruid, 0);
-    kernel_write32(ucred + off_ucred_cr_svuid, 0);
-    kernel_write32(ucred + off_ucred_cr_ngroups, 1);
-    kernel_write32(ucred + off_ucred_cr_groups, 0);
-    kernel_write32(ucred + off_ucred_cr_rgid, 0);
-    kernel_write32(ucred + off_ucred_cr_svgid, 0);
+    kernel_write32(proc + off_p_uid, uid);
+    kernel_write32(proc + off_p_ruid, uid);
+    kernel_write32(ucred + off_ucred_cr_uid, uid);
+    kernel_write32(ucred + off_ucred_cr_ruid, uid);
+    kernel_write32(ucred + off_ucred_cr_svuid, uid);
+    INFO("Overwritten UID to %i for proc 0x%llx", uid, proc);
+}
+
+- (void)setGID:(gid_t)gid {
+    [self setGID:gid forProc:[self selfproc]];
+}
+
+- (void)setGID:(gid_t)gid forProc:(uint64_t)proc {
+    if (getgid() == gid) return;
+    uint64_t ucred = kernel_read64(proc + off_p_ucred);
+    kernel_write32(proc + off_p_gid, gid);
+    kernel_write32(proc + off_p_rgid, gid);
+    kernel_write32(ucred + off_ucred_cr_rgid, gid);
+    kernel_write32(ucred + off_ucred_cr_svgid, gid);
+    INFO("Overwritten GID to %i for proc 0x%llx", gid, proc);
+}
+
+- (void)setUIDAndGID:(int)both {
+    [self setUIDAndGID:both forProc:[self selfproc]];
+}
+
+- (void)setUIDAndGID:(int)both forProc:(uint64_t)proc {
+    [self setUID:both forProc:proc];
+    [self setGID:both forProc:proc];
+}
+
+- (void)root {
+    [self setUIDAndGID:0];
+}
+
+- (void)mobile {
+    [self setUIDAndGID:501];
+}
+
+// Sandbox //
+
+- (bool)isSandboxed {
+    if (!MACH_PORT_VALID(kernel_task_port)) {
+        [[NSFileManager defaultManager] createFileAtPath:@"/var/TESTF" contents:nil attributes:nil];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/TESTF"]) return true;
+        [[NSFileManager defaultManager] removeItemAtPath:@"/var/TESTF" error:nil];
+        return false;
+    }
+    return kernel_read64(kernel_read64(kernel_read64([self selfproc] + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) != 0;
+}
+
+- (bool)isSandboxed:(uint64_t)proc {
+    return kernel_read64(kernel_read64(kernel_read64(proc + off_p_ucred) + off_ucred_cr_label) + off_sandbox_slot) != 0;
+}
+
+- (void)sandbox {
+    [self sandbox:[self selfproc]];
+}
+
+- (void)sandbox:(uint64_t)proc {
+    INFO("Sandboxed proc 0x%llx", proc);
+    if ([self isSandboxed]) return;
+    uint64_t ucred = kernel_read64(proc + off_p_ucred);
+    uint64_t cr_label = kernel_read64(ucred + off_ucred_cr_label);
+    kernel_write64(cr_label + off_sandbox_slot, SANDBOX);
+    SANDBOX = 0;
 }
 
 - (void)unsandbox {
-    uint64_t proc = [self selfproc];
+    [self unsandbox:[self selfproc]];
+}
+
+- (void)unsandbox:(uint64_t)proc {
+    INFO("Unsandboxed proc 0x%llx", proc);
+    if (![self isSandboxed]) return;
     uint64_t ucred = kernel_read64(proc + off_p_ucred);
     uint64_t cr_label = kernel_read64(ucred + off_ucred_cr_label);
-    kernel_read64(cr_label + off_sandbox_slot);
+    if (SANDBOX == 0) SANDBOX = kernel_read64(cr_label + off_sandbox_slot);
     kernel_write64(cr_label + off_sandbox_slot, 0);
 }
 
