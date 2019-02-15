@@ -3,7 +3,7 @@
 //  voucher_swap
 //
 //  Created by Soongyu Kwon on 04/02/2019.
-//  Copyright © 2019 Brandon Azad. All rights reserved.
+//  Copyright © 2019 PeterDev. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

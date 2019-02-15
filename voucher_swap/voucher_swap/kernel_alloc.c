@@ -494,7 +494,7 @@ done:
 }
 
 void
-increase_file_limit() {
+increase_file_limit_voucher() {
 	struct rlimit rl = {};
 	int error = getrlimit(RLIMIT_NOFILE, &rl);
 	assert(error == 0);

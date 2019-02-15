@@ -11,7 +11,9 @@
 - (void)reboot;
 - (bool)revert;
 - (bool)restore;
-- (bool)respring;
+- (void)letsChange;
+- (void)changeItAgain;
+- (void)restoreBackup;
 
 @end
 

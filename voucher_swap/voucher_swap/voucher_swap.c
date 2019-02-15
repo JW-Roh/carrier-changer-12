@@ -762,7 +762,7 @@ voucher_swap() {
 	// of pipe memory, so don't bother creating more.
 	pipe_buffer_size = 16384;
 	size_t pipe_count = 16 * MB / pipe_buffer_size;
-	increase_file_limit();
+	increase_file_limit_voucher();
 	int *pipefds_array = create_pipes(&pipe_count);
 	INFO("created %zu pipes", pipe_count);
 

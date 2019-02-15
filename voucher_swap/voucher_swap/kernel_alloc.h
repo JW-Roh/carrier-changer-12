@@ -231,12 +231,12 @@ void ool_ports_spray_receive(mach_port_t *holding_ports, size_t holding_port_cou
 		void (^ool_ports_handler)(mach_port_t *, size_t));
 
 /*
- * increase_file_limit
+ * increase_file_limit_voucher
  *
  * Description:
  * 	Increase our process's limit on the number of open files.
  */
-void increase_file_limit(void);
+void increase_file_limit_voucher(void);
 
 /*
  * pipe_close
