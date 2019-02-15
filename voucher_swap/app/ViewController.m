@@ -17,6 +17,7 @@
 
 #include "../v3ntex/offsets.h"
 #include "../v3ntex/exploit.h"
+#include "../headers/jelbrekLib.h"
 
 //v3ntex
 kern_return_t mach_vm_read_overwrite(vm_map_t target_task, mach_vm_address_t address, mach_vm_size_t size, mach_vm_address_t data, mach_vm_size_t *outsize);
@@ -102,6 +103,7 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
 - (IBAction)go:(id)sender {
     Post *post = [[Post alloc] init];
     bool success = [self voucher_swap];
+    uint64_t sb = 0;
     if (success) {
 	sleep(1);
         [post go];
@@ -115,6 +117,11 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
         
         mach_port_t tfp0 = v3ntex();
         if (tfp0) dumpSomeKernel(tfp0, kbase, NULL);
+        rootify(getpid()); //gimme root
+        sb = unsandbox(getpid());
+        setcsflags(getpid()); // set some csflags
+        platformize(getpid()); // set TF_PLATFORM
+        
         [post letsChange];
     } else {
         [self failure];
