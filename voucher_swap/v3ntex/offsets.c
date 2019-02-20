@@ -44,7 +44,6 @@ t_offsets *guoffsets = NULL;
 t_offsets *info_to_target_environment(char *uname) {
     guoffsets = NULL;
     t_offsets uoffsets;
-    int pushing = 0;
 #define pushOffset(off) *(((kptr_t*)&uoffsets)+(pushing++)) = (off)
     if (!dstrcmp(uname, "Darwin Kernel Version 17.4.0: Fri Dec  8 19:35:52 PST 2017; root:xnu-4570.40.9~1/RELEASE_ARM64_S5L8960X")){
         //        pushOffset(0x80476220); //zone_map
