@@ -197,7 +197,7 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
 }
 
 - (IBAction)creditClicked:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nCarrierChanger12 by PeterDev\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng, Code4iOS,\n jailbreak365 and CoryKornowicz"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nv3ntex by tihmstar\nfork by Jake James\nCarrierChanger12 by PeterDev\n\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng, Code4iOS,\n jailbreak365 and CoryKornowicz"] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }
