@@ -14,6 +14,7 @@
 - (void)letsChange;
 - (void)changeItAgain;
 - (void)restoreBackup;
+- (void)v3ntexApply;
 
 @end
 

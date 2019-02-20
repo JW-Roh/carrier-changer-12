@@ -7,17 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "kernel_slide.h"
-#import "voucher_swap.h"
-#import "kernel_memory.h"
-#import <mach/mach.h>
-
-#include "post.h"
-#include <sys/utsname.h>
-
-#include "../v3ntex/offsets.h"
-#include "../v3ntex/exploit.h"
-
 
 //v3ntex
 kern_return_t mach_vm_read_overwrite(vm_map_t target_task, mach_vm_address_t address, mach_vm_size_t size, mach_vm_address_t data, mach_vm_size_t *outsize);
@@ -103,25 +92,24 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
 - (IBAction)go:(id)sender {
     Post *post = [[Post alloc] init];
     bool success = [self voucher_swap];
-    uint64_t sb = 0;
     if (success) {
 	sleep(1);
         [post go];
         [self editPlist];
         [post reboot];
-        [self goSuccess];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfuly changed carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
     } else if (is4Kdevice) {
-        struct utsname ustruct = {};
-        uname(&ustruct);
-        printf("kern=%s\n",ustruct.version);
-        
-        mach_port_t tfp0 = v3ntex();
-        if (tfp0) dumpSomeKernel(tfp0, kbase, NULL);
-        
+        [self dov3ntex];
         [post letsChange];
         [self editPlist];
-        [post reboot];
-        [self goSuccess];
+        [post v3ntexApply];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfuly changed carrier name to %@ \n Reboot your device.", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
     } else {
         [self failure];
     }
@@ -155,12 +143,6 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
     }
 }
 
-- (void)goSuccess {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfuly changed carrier name to %@", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.carrierTextField.delegate = self;
@@ -182,9 +164,31 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
             [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
             [self presentViewController:alert animated:YES completion:nil];
         }
+    } else if (is4Kdevice) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChanger12/"]) {
+            [self dov3ntex];
+            [post changeItAgain];
+            [post v3ntexApply];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully changed carrier name again. Reboot your device."] preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Failed." message:[NSString stringWithFormat:@"You have never changed carrier name before. press Apply instead of this."] preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     } else {
         [self failure];
     }
+}
+
+- (void)dov3ntex {
+    struct utsname ustruct = {};
+    uname(&ustruct);
+    printf("kern=%s\n",ustruct.version);
+    
+    mach_port_t tfp0 = v3ntex();
+    if (tfp0) dumpSomeKernel(tfp0, kbase, NULL);
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -193,7 +197,7 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
 }
 
 - (IBAction)creditClicked:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nCarrierChanger12 by PeterDev\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng, Code4iOS\n, jailbreak365 and CoryKornowicz"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Credits" message:[NSString stringWithFormat:@"voucher_swap by bazad\nfork by alticha\nCarrierChanger12 by PeterDev\nSpecial Thanks to Muirey, Luis E,\nWei-Jin Tzeng, Code4iOS,\n jailbreak365 and CoryKornowicz"] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
 }

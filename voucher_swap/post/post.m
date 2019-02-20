@@ -161,6 +161,13 @@ static uint64_t SANDBOX = 0;
     //reboot(0x400);
 }
 
+- (void)v3ntexApply {
+    [self copyFolderToChange];
+    [self removeFolderAtOverlay];
+    [self copyFolderToOverlay];
+    [self removeFolderAtMedia];
+}
+
 - (void)letsChange {
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/CarrierChanger12"] == YES) {
         printf("Old file\n");

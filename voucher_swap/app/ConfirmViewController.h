@@ -11,8 +11,12 @@
 #import "voucher_swap.h"
 #import "kernel_memory.h"
 #import <mach/mach.h>
-#include "post.h"
+
+#include "../post/post.h"
 #include <sys/utsname.h>
+
+#include "../v3ntex/offsets.h"
+#include "../v3ntex/exploit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
