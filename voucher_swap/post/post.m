@@ -167,6 +167,9 @@ static uint64_t SANDBOX = 0;
         [self removeChangeFolder];
         [self copyFolderToMedia];
         [self switchToNew];
+    } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/.CarrierChanger12"] == YES) {
+        [self removeChangeFolder];
+        [self copyFolderToMedia];
     } else {
         FILE *backupCheck = fopen("/var/mobile/.CarrierChanger12", "w");
         if (!backupCheck) {
