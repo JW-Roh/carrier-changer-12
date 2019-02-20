@@ -28,8 +28,6 @@
 		5019DA2122192DAD006104DC /* exploit.m in Sources */ = {isa = PBXBuildFile; fileRef = 501F3BF822168B5300808D20 /* exploit.m */; };
 		5019DA2222192DB3006104DC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F5FBED21BB2C3200F3AB28 /* ViewController.m */; };
 		501F3BED2216894100808D20 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F3BEC2216894100808D20 /* IOKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		501F3C00221709C300808D20 /* IOKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F3BFD2216FBCE00808D20 /* IOKit.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
-		501F3C01221709CE00808D20 /* jelbrekLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 501F3BFB2216FBCE00808D20 /* jelbrekLib.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		55F5FBF121BB2C3200F3AB28 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F5FBEF21BB2C3200F3AB28 /* Main.storyboard */; };
 		55F5FBF321BB2C3300F3AB28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F5FBF221BB2C3300F3AB28 /* Assets.xcassets */; };
 		55F5FBF621BB2C3300F3AB28 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F5FBF421BB2C3300F3AB28 /* LaunchScreen.storyboard */; };
@@ -42,9 +40,6 @@
 		501F3BF622168AE300808D20 /* offsets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = offsets.c; sourceTree = "<group>"; };
 		501F3BF822168B5300808D20 /* exploit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = exploit.m; sourceTree = "<group>"; };
 		501F3BFA22168B5E00808D20 /* exploit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exploit.h; sourceTree = "<group>"; };
-		501F3BFB2216FBCE00808D20 /* jelbrekLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = jelbrekLib.a; sourceTree = "<group>"; };
-		501F3BFC2216FBCE00808D20 /* jelbrekLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jelbrekLib.h; sourceTree = "<group>"; };
-		501F3BFD2216FBCE00808D20 /* IOKit.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = IOKit.tbd; sourceTree = "<group>"; };
 		50F8EA4B220872C800F595D9 /* ConfirmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmViewController.h; sourceTree = "<group>"; };
 		50F8EA4C220872C800F595D9 /* ConfirmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmViewController.m; sourceTree = "<group>"; };
 		551FBBD921C2D297005F5DC9 /* kernel_alloc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kernel_alloc.h; sourceTree = "<group>"; };
@@ -95,8 +90,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				501F3C01221709CE00808D20 /* jelbrekLib.a in Frameworks */,
-				501F3C00221709C300808D20 /* IOKit.tbd in Frameworks */,
 				501F3BED2216894100808D20 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,9 +154,6 @@
 				551FBBE221C43356005F5DC9 /* IOKitLib.h */,
 				558AB70121C9642F00FA1594 /* ipc_port.h */,
 				558AB70221C9679200FA1594 /* mach_vm.h */,
-				501F3BFD2216FBCE00808D20 /* IOKit.tbd */,
-				501F3BFB2216FBCE00808D20 /* jelbrekLib.a */,
-				501F3BFC2216FBCE00808D20 /* jelbrekLib.h */,
 			);
 			path = headers;
 			sourceTree = "<group>";

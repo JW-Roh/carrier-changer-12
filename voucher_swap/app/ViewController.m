@@ -17,7 +17,7 @@
 
 #include "../v3ntex/offsets.h"
 #include "../v3ntex/exploit.h"
-#include "../headers/jelbrekLib.h"
+
 
 //v3ntex
 kern_return_t mach_vm_read_overwrite(vm_map_t target_task, mach_vm_address_t address, mach_vm_size_t size, mach_vm_address_t data, mach_vm_size_t *outsize);
@@ -117,11 +117,6 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
         
         mach_port_t tfp0 = v3ntex();
         if (tfp0) dumpSomeKernel(tfp0, kbase, NULL);
-        
-        //Get root
-        rootify(getpid());
-        //Unsandbox
-        sb = unsandbox(getpid());
         
         [post letsChange];
         [self editPlist];
