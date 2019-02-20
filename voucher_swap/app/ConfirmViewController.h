@@ -12,6 +12,7 @@
 #import "kernel_memory.h"
 #import <mach/mach.h>
 
+#include "ViewController.h"
 #include "../post/post.h"
 #include <sys/utsname.h>
 

@@ -24,4 +24,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *carrierTextField;
 - (IBAction)creditClicked:(id)sender;
 
+
+- (void)dov3ntex;
 @end
