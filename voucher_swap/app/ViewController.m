@@ -80,7 +80,6 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
     DumpHex(buf, sizeof(buf));
     
     printf("lol\n");
-    //exit(0); //we are no shenanigans!
     return err;
 }
 
@@ -88,6 +87,12 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error: exploit" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [self presentViewController:alert animated:YES completion:nil];
 }
+
+- (void)v3ntexFailure {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error: exploit. Reboot and retry." message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 - (IBAction)go:(id)sender {
     Post *post = [[Post alloc] init];
@@ -103,13 +108,19 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
         [self presentViewController:alert animated:YES completion:nil];
     } else if (is4Kdevice) {
         [self dov3ntex];
-        [post letsChange];
-        [self editPlist];
-        [post v3ntexApply];
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfuly changed carrier name to %@ \n Reboot your device.", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
-        [self presentViewController:alert animated:YES completion:nil];
+        if (MACH_PORT_NULL) {
+            printf("v3ntex: failed\n");
+            [self v3ntexFailure];
+        } else {
+            printf("v3ntex: success\n");
+            [post letsChange];
+            [self editPlist];
+            [post v3ntexApply];
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfuly changed carrier name to %@ \n Reboot your device.", self.carrierTextField.text] preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     } else {
         [self failure];
     }
@@ -167,11 +178,17 @@ kern_return_t dumpSomeKernel(task_t tfp0, kptr_t kbase, void *data){
     } else if (is4Kdevice) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChanger12/"]) {
             [self dov3ntex];
-            [post changeItAgain];
-            [post v3ntexApply];
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully changed carrier name again. Reboot your device."] preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:alert animated:YES completion:nil];
+            if (MACH_PORT_NULL) {
+                printf("v3ntex: failed\n");
+                [self v3ntexFailure];
+            } else {
+                printf("v3ntex: success\n");
+                [post changeItAgain];
+                [post v3ntexApply];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully changed carrier name again. Reboot your device."] preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
         } else {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Failed." message:[NSString stringWithFormat:@"You have never changed carrier name before. press Apply instead of this."] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];

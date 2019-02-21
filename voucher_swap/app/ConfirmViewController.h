@@ -16,9 +16,6 @@
 #include "../post/post.h"
 #include <sys/utsname.h>
 
-#include "../v3ntex/offsets.h"
-#include "../v3ntex/exploit.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ConfirmViewController : UIViewController

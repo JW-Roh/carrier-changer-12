@@ -40,6 +40,11 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (void)v3ntexFailure {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error: exploit. Reboot and retry." message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -64,11 +69,17 @@
     } else if (is4Kdevice) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChangerBackup/"]) {
             [vc dov3ntex];
-            [post restoreBackup];
-            [post v3ntexApply];
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully restored with backup. Reboot your device."] preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:alert animated:YES completion:nil];
+            if (MACH_PORT_NULL) {
+                printf("v3ntex: failed\n");
+                [self v3ntexFailure];
+            } else {
+                printf("v3ntex: success\n");
+                [post restoreBackup];
+                [post v3ntexApply];
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully restored with backup. Reboot your device."] preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
         } else {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Failed." message:[NSString stringWithFormat:@"Cannot find backup folder."] preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
