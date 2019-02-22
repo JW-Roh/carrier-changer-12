@@ -69,16 +69,16 @@
     } else if (is4Kdevice) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Media/CarrierChangerBackup/"]) {
             [vc dov3ntex];
-            if (MACH_PORT_NULL) {
-                printf("v3ntex: failed\n");
-                [self v3ntexFailure];
-            } else {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isSucceed"] == TRUE) {
                 printf("v3ntex: success\n");
                 [post restoreBackup];
                 [post v3ntexApply];
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Success!" message:[NSString stringWithFormat:@"Successfully restored with backup. Reboot your device."] preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleCancel handler:nil]];
                 [self presentViewController:alert animated:YES completion:nil];
+            } else {
+                printf("v3ntex: failed\n");
+                [self v3ntexFailure];
             }
         } else {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Failed." message:[NSString stringWithFormat:@"Cannot find backup folder."] preferredStyle:UIAlertControllerStyleAlert];
